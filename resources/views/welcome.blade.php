@@ -307,7 +307,7 @@
             </div>
         </div>
 
-        <div class="w-full px-0">
+        <div class="w-full md:w-2/5 mx-auto px-4">
             <div class="roadmap w-full">
                 <div class="relative w-full p-4 md:p-10">
                     <div class="relative w-full h-140 md:h-105" data-roadmap>
