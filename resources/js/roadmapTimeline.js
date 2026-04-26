@@ -477,6 +477,12 @@ class MilestoneNode {
                 e.stopPropagation();
                 this.onInteract({ type: 'click', milestone: this });
             });
+
+            if (!isCoarsePointer()) {
+                this.el.addEventListener('mouseenter', () => {
+                    this.onInteract({ type: 'hover', milestone: this });
+                });
+            }
         }
 
         this.visible = false;
@@ -651,7 +657,7 @@ class RoadmapTimeline {
     }
 
     handleNodeInteract({ type, milestone }) {
-        if (type !== 'click' || !milestone) return;
+        if ((type !== 'click' && type !== 'hover') || !milestone) return;
 
         const targetNode = milestone.milestone;
         if (targetNode.kind !== 'bubble') {
@@ -662,7 +668,7 @@ class RoadmapTimeline {
         const anchorPoint = { x: milestone.point.x, y: milestone.point.y };
         const preferRight = anchorPoint.x < containerRect.width / 2;
 
-        if (this.tooltip.isOpen && this.tooltip.activeMilestoneId === targetNode.id) {
+        if (type === 'click' && this.tooltip.isOpen && this.tooltip.activeMilestoneId === targetNode.id) {
             this.tooltip.close();
             return;
         }
