@@ -521,6 +521,7 @@ class RoadmapTimeline {
         this.nodeViews = [];
         this.nodes = nodes;
         this.lastProgress = -1;
+        this.lastAutoPreviewMilestoneId = null;
 
         this.onScroll = this.onScroll.bind(this);
         this.onResize = this.onResize.bind(this);
@@ -654,15 +655,23 @@ class RoadmapTimeline {
                 n.setActive(activeMonthKey && n.milestone.monthKey === activeMonthKey);
             }
         });
+
+        const activeBubbleId = activeBubble.milestone.id;
+        if (activeBubbleId && activeBubbleId !== this.lastAutoPreviewMilestoneId) {
+            this.handleNodeInteract({ type: 'scroll', milestone: activeBubble });
+            this.lastAutoPreviewMilestoneId = activeBubbleId;
+        }
     }
 
     handleNodeInteract({ type, milestone }) {
-        if ((type !== 'click' && type !== 'hover') || !milestone) return;
+        if ((type !== 'click' && type !== 'hover' && type !== 'scroll') || !milestone) return;
 
         const targetNode = milestone.milestone;
         if (targetNode.kind !== 'bubble') {
             return;
         }
+
+        this.lastAutoPreviewMilestoneId = targetNode.id;
 
         const containerRect = this.containerEl.getBoundingClientRect();
         const anchorPoint = { x: milestone.point.x, y: milestone.point.y };
