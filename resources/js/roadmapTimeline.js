@@ -9,7 +9,8 @@ function getScrollProgressWithinSection(sectionEl) {
     const height = rect.height;
 
     const start = top - window.innerHeight * 0.65;
-    const end = top + height - window.innerHeight * 0.35;
+    // Finish a bit earlier so the last node gets covered reliably while scrolling.
+    const end = top + height - window.innerHeight * 0.55;
 
     if (end <= start) {
         return 1;
@@ -86,9 +87,10 @@ function buildDesktopSnakePoints({ totalMilestones, nodesPerRow }) {
     const xR = vbW - pad;
     const dx = xR - xL;
 
-    const rowGap = 150;
-    const yStart = 140;
-    const amp = 58;
+    const rowGap = 300;
+    const yStart = 150;
+    const baseAmp =20;
+    const secondRowAmpBoost = 0.9;
     const rowCount = Math.max(1, Math.ceil(totalMilestones / nodesPerRow));
 
     const points = [];
@@ -99,10 +101,11 @@ function buildDesktopSnakePoints({ totalMilestones, nodesPerRow }) {
 
         const xs = [xL, xL + dx * 0.33, xL + dx * 0.66, xR];
         const xRow = leftToRight ? xs : xs.slice().reverse();
+        const rowAmp = row === 1 ? baseAmp * secondRowAmpBoost : baseAmp;
         const yRow = [
             y,
-            y + (row % 2 === 0 ? -amp : amp),
-            y + (row % 2 === 0 ? amp : -amp),
+            y + (row % 2 === 0 ? -rowAmp : rowAmp),
+            y + (row % 2 === 0 ? rowAmp : -rowAmp),
             y,
         ];
 
@@ -118,10 +121,12 @@ function buildDesktopSnakePoints({ totalMilestones, nodesPerRow }) {
             const endX = leftToRight ? xR : xL;
             const yNext = yStart + (row + 1) * rowGap;
             const turnX = clamp(endX + (leftToRight ? -44 : 44), xL, xR);
+            const tiltX = clamp(endX + (leftToRight ? -20 : 20), xL, xR);
 
-            points.push({ x: endX, y: y + rowGap * 0.22 });
+            // Keep the turn slightly diagonal instead of a straight vertical drop.
+            points.push({ x: tiltX, y: y + rowGap * 0.22 });
             points.push({ x: turnX, y: y + rowGap * 0.5 });
-            points.push({ x: endX, y: yNext - rowGap * 0.22 });
+            points.push({ x: tiltX, y: yNext - rowGap * 0.22 });
             points.push({ x: endX, y: yNext });
         }
     }
@@ -366,7 +371,7 @@ function buildRoadmapNodesFromEvents(events) {
 
     // Map node positions along the path based on actual day differences.
     const startT = 0.06;
-    const endT = 0.96;
+    const endT = 0.97;
 
     const minDate = flagNodes[0]?.dateAnchor ?? bubbleNodes[0].dateAnchor;
     const maxDate = bubbleNodes.reduce(
@@ -413,7 +418,7 @@ function buildRoadmapNodesFromEvents(events) {
         isPending: true,
         monthKey: 'pending',
         label: 'More events will occers.',
-        t: 1,
+        t: 0.99,
         globalTitle: 'More events will occers.',
     });
 

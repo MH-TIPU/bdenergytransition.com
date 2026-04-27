@@ -307,20 +307,20 @@
             </div>
         </div>
 
-        <div class="w-full md:w-2/5 mx-auto px-4">
+        <div class="w-full md:w-2/3 mx-auto px-4">
             <div class="roadmap w-full">
                 <div class="relative w-full p-4 md:p-10">
                     <div class="relative w-full h-140 md:h-105" data-roadmap>
                         <svg class="absolute inset-0 w-full h-full" viewBox="0 0 1000 420" preserveAspectRatio="none" aria-hidden="true">
                             <defs>
-                                <linearGradient id="roadmapGrad" x1="0" y1="0" x2="1" y2="1">
+                                <linearGradient id="roadmapGrad" x1="0" y1="0" x2="1" y2="0">
                                     <stop offset="0%" stop-color="#5b21b6" stop-opacity="1" />
                                     <stop offset="100%" stop-color="#5b21b6" stop-opacity="1" />
                                 </linearGradient>
                             </defs>
 
-                            <path id="roadmapPathBase" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="#e2e8f0" stroke-width="40" stroke-linecap="round" />
-                            <path id="roadmapPathProgress" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="url(#roadmapGrad)" stroke-width="40" stroke-linecap="round" />
+                            <path id="roadmapPathBase" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="#e2e8f0" stroke-width="20" stroke-linecap="round" />
+                            <path id="roadmapPathProgress" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="url(#roadmapGrad)" stroke-width="20" stroke-linecap="round" />
                         </svg>
 
                         <div class="absolute inset-0" data-roadmap-nodes></div>
