@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Icon;
 use App\Models\TimelineEvent;
 use Illuminate\Database\Seeder;
 
@@ -11,6 +12,7 @@ class TimelineEventsSeeder extends Seeder
     {
         $events = [
             [
+                'icon' => 'Market',
                 'event_date' => '2026-02-01',
                 'global_event_title' => 'Global energy markets adjust to new supply outlook',
                 'global_event_excerpt' => 'Market participants react to updated production and demand forecasts across regions.',
@@ -22,6 +24,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Market',
                 'event_date' => '2026-03-18',
                 'global_event_title' => 'Regional LNG spot prices soften',
                 'global_event_excerpt' => 'Short-term contracts reflect easing conditions in shipping and storage.',
@@ -33,6 +36,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Renewables',
                 'event_date' => '2026-04-05',
                 'global_event_title' => 'New renewable procurement targets announced',
                 'global_event_excerpt' => 'Governments and developers outline pipeline capacity and tender timelines.',
@@ -44,6 +48,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Grid',
                 'event_date' => '2026-04-22',
                 'global_event_title' => 'Volatility returns after a shipping disruption',
                 'global_event_excerpt' => 'Logistics constraints increase short-term uncertainty for fuel deliveries.',
@@ -55,6 +60,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Finance',
                 'event_date' => '2026-05-12',
                 'global_event_title' => 'Power sector investment discussions accelerate across Asia',
                 'global_event_excerpt' => 'Developers and financiers explore updated risk frameworks and timelines.',
@@ -66,6 +72,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Policy',
                 'event_date' => '2026-06-03',
                 'global_event_title' => 'Fuel price signals stabilize after policy guidance',
                 'global_event_excerpt' => 'Markets respond to clearer medium-term policy direction in major economies.',
@@ -77,6 +84,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Grid',
                 'event_date' => '2026-06-24',
                 'global_event_title' => 'New grid standards published for renewable integration',
                 'global_event_excerpt' => 'Updated technical requirements focus on stability, forecasting, and dispatch.',
@@ -88,6 +96,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Policy',
                 'event_date' => '2026-07-15',
                 'global_event_title' => 'Renewables auction schedules released for the next cycle',
                 'global_event_excerpt' => 'Tender calendars signal expected volumes and timeline milestones.',
@@ -99,6 +108,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Market',
                 'event_date' => '2026-08-09',
                 'global_event_title' => 'Industrial demand forecasts revised as trade shifts',
                 'global_event_excerpt' => 'Revised outlook affects power demand expectations and capacity planning.',
@@ -110,6 +120,7 @@ class TimelineEventsSeeder extends Seeder
                 'is_published' => true,
             ],
             [
+                'icon' => 'Finance',
                 'event_date' => '2026-09-01',
                 'global_event_title' => 'Climate finance instruments gain momentum for emerging markets',
                 'global_event_excerpt' => 'More blended finance options emerge for infrastructure and energy projects.',
@@ -123,15 +134,21 @@ class TimelineEventsSeeder extends Seeder
         ];
 
         foreach ($events as $e) {
+            $iconName = $e['icon'];
+            unset($e['icon']);
+
+            $iconId = Icon::query()->where('name', $iconName)->value('id');
+
             TimelineEvent::query()->updateOrCreate(
                 ['event_date' => $e['event_date'], 'global_event_title' => $e['global_event_title']],
-                $e
+                array_merge($e, ['icon_id' => $iconId])
             );
         }
 
         TimelineEvent::query()->updateOrCreate(
             ['event_date' => '2026-04-10', 'global_event_title' => 'Draft event (hidden)'],
             [
+                'icon_id' => Icon::query()->where('name', 'Policy')->value('id'),
                 'global_event_excerpt' => null,
                 'global_event_link' => null,
                 'impact_title' => 'Draft impact (hidden)',

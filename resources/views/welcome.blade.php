@@ -93,10 +93,19 @@
             border-radius: 9999px;
             border: 4px solid currentColor;
             background: #ffffff;
+            overflow: hidden;
             box-shadow: 0 10px 15px -3px rgba(0, 0, 0, 0.08);
             font-weight: 800;
             color: #111827;
             pointer-events: none;
+        }
+
+        .roadmap-bubble-icon {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            border-radius: 9999px;
+            display: block;
         }
 
         .roadmap-node.is-active .roadmap-bubble {
@@ -336,6 +345,8 @@
                                     'date' => optional($event->event_date)->toDateString(),
                                     'year' => optional($event->event_date)->format('Y'),
                                     'label' => optional($event->event_date)->format('M Y'),
+                                    'iconName' => $event->icon?->name,
+                                    'iconImage' => $event->icon?->image ? asset('storage/' . $event->icon->image) : null,
                                     'globalTitle' => $event->global_event_title,
                                     'globalExcerpt' => $event->global_event_excerpt,
                                     'globalLink' => $event->global_event_link,

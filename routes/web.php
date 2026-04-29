@@ -80,7 +80,8 @@ Route::get('/', function () {
     $timelineMilestones = TimelineEvent::query()
         ->published()
         ->whereNotNull('event_date')
-        ->orderBy('event_date', 'asc')
+        ->with('icon')
+        ->orderBy('event_date', 'desc')
         ->get();
 
     $quotes = Quote::query()

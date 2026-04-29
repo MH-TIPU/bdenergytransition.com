@@ -4,10 +4,12 @@ namespace App\Models;
 
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 
 class TimelineEvent extends Model
 {
     protected $fillable = [
+        'icon_id',
         'event_date',
         'global_event_title',
         'global_event_excerpt',
@@ -27,5 +29,10 @@ class TimelineEvent extends Model
     public function scopePublished(Builder $query): Builder
     {
         return $query->where('is_published', true);
+    }
+
+    public function icon(): BelongsTo
+    {
+        return $this->belongsTo(Icon::class);
     }
 }

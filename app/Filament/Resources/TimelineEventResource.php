@@ -23,6 +23,12 @@ class TimelineEventResource extends Resource
     {
         return $form
             ->schema([
+                Forms\Components\Select::make('icon_id')
+                    ->label('Icon')
+                    ->relationship('icon', 'name')
+                    ->preload()
+                    ->searchable()
+                    ->nullable(),
                 Forms\Components\DatePicker::make('event_date')
                     ->required()
                     ->displayFormat('d F Y')
@@ -62,6 +68,8 @@ class TimelineEventResource extends Resource
     {
         return $table
             ->columns([
+                Tables\Columns\ImageColumn::make('icon.image')
+                    ->label('Icon'),
                 Tables\Columns\TextColumn::make('event_date')
                     ->date('d M Y')
                     ->sortable(),

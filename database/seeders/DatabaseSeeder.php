@@ -28,6 +28,7 @@ class DatabaseSeeder extends Seeder
             SettingsSeeder::class,
             CategoriesSeeder::class,
             TagsSeeder::class,
+            IconSeeder::class,
             NewsItemsSeeder::class,
             QuotesSeeder::class,
             TimelineEventsSeeder::class,

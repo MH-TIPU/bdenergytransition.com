@@ -87,7 +87,7 @@ function buildDesktopSnakePoints({ totalMilestones, nodesPerRow }) {
     const xR = vbW - pad;
     const dx = xR - xL;
 
-    const rowGap = 300;
+    const rowGap = 400;
     const yStart = 150;
     const baseAmp =20;
     const secondRowAmpBoost = 0.9;
@@ -181,12 +181,11 @@ class TooltipCard {
         if (milestone.isPending) {
             this.cardEl.innerHTML = `
                 <div class="bg-white rounded-2xl border border-gray-200 shadow-lg p-5">
-                    <div class="flex items-start justify-between gap-4">
+                    <div class="flex items-start gap-4">
                         <div>
                             <p class="text-xs font-bold text-gray-500 tracking-widest uppercase">Pending</p>
                             <h4 class="text-lg font-extrabold text-gray-900 leading-tight mt-1">More events will occers.</h4>
                         </div>
-                        <button type="button" data-roadmap-close class="shrink-0 w-9 h-9 rounded-full border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-300">×</button>
                     </div>
                     <p class="text-sm text-gray-600 leading-relaxed mt-3">This spot is reserved for upcoming updates.</p>
                 </div>
@@ -194,7 +193,7 @@ class TooltipCard {
 
             const containerRect = this.cardEl.parentElement?.getBoundingClientRect();
             if (containerRect) {
-                const cardWidth = Math.min(560, containerRect.width - 32);
+                const cardWidth = Math.min(420, containerRect.width - 32);
                 const left = preferRight
                     ? clamp(anchorPoint.x + 18, 16, containerRect.width - cardWidth - 16)
                     : clamp(anchorPoint.x - cardWidth - 18, 16, containerRect.width - cardWidth - 16);
@@ -211,8 +210,6 @@ class TooltipCard {
             this.isOpen = true;
             this.activeMilestoneId = milestone.id;
 
-            const closeBtn = this.cardEl.querySelector('[data-roadmap-close]');
-            closeBtn?.addEventListener('click', () => this.close(), { once: true });
             return;
         }
 
@@ -225,27 +222,32 @@ class TooltipCard {
             ? `<a href="${milestone.impactLink}" target="_blank" rel="noopener noreferrer" class="hover:text-red-900 hover:underline">${impactTitleText}</a>`
             : impactTitleText;
 
-        const globalExcerpt = milestone.globalExcerpt
-            ? `<p class="text-sm text-gray-600 leading-relaxed mt-3">${milestone.globalExcerpt}</p>`
+        const globalReadMore = milestone.globalLink
+            ? `<a href="${milestone.globalLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[10px] font-semibold  tracking-wider px-2 py-1 rounded border border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-400 transition-colors whitespace-nowrap">Read More</a>`
             : '';
-        const impactExcerpt = milestone.impactExcerpt ? `<p class="text-sm text-gray-600 leading-relaxed mt-2">${milestone.impactExcerpt}</p>` : '';
+        const impactReadMore = milestone.impactLink
+            ? `<a href="${milestone.impactLink}" target="_blank" rel="noopener noreferrer" class="inline-flex items-center justify-center text-[10px] font-semibold  tracking-wider px-2 py-1 rounded border border-gray-300 text-gray-600 hover:text-gray-900 hover:border-gray-400 transition-colors whitespace-nowrap">Read More</a>`
+            : '';
 
         this.cardEl.innerHTML = `
             <div class="bg-white rounded-2xl border border-gray-200 shadow-lg p-5">
-                <div class="flex items-start justify-between gap-4">
+                <div class="flex items-start gap-4">
                     <div>
                         <p class="text-xs font-bold text-gray-500 tracking-widest uppercase">${milestone.label ?? ''}</p>
-                        <h4 class="text-xl md:text-2xl font-extrabold text-gray-900 leading-tight mt-2">${globalTitleHtml}</h4>
-                        ${globalExcerpt}
+                            <div class="mt-2 flex items-start justify-between gap-3">
+                            <h4 class="text-base md:text-lg font-extrabold text-gray-900 leading-tight">${globalTitleHtml}</h4>
+                                ${globalReadMore}
+                            </div>
                     </div>
-                    <button type="button" data-roadmap-close class="shrink-0 w-9 h-9 rounded-full border border-gray-200 bg-white text-gray-500 hover:text-gray-900 hover:border-gray-300">×</button>
                 </div>
 
                 <div class="mt-4 grid grid-cols-1 gap-3">
                     <div class="bg-white rounded-xl border border-red-100 p-4">
                         <p class="text-[11px] font-extrabold text-red-700 uppercase tracking-wider">Bangladesh impact</p>
-                        <p class="text-sm font-bold text-gray-900 leading-snug mt-2">${impactTitleHtml}</p>
-                        ${impactExcerpt}
+                        <div class="mt-2 flex items-start justify-between gap-3">
+                            <p class="text-sm font-bold text-gray-900 leading-snug">${impactTitleHtml}</p>
+                            ${impactReadMore}
+                        </div>
                     </div>
                 </div>
             </div>
@@ -253,7 +255,7 @@ class TooltipCard {
 
         const containerRect = this.cardEl.parentElement?.getBoundingClientRect();
         if (containerRect) {
-            const cardWidth = Math.min(560, containerRect.width - 32);
+            const cardWidth = Math.min(420, containerRect.width - 32);
             const left = preferRight
                 ? clamp(anchorPoint.x + 18, 16, containerRect.width - cardWidth - 16)
                 : clamp(anchorPoint.x - cardWidth - 18, 16, containerRect.width - cardWidth - 16);
@@ -271,8 +273,6 @@ class TooltipCard {
         this.isOpen = true;
         this.activeMilestoneId = milestone.id;
 
-        const closeBtn = this.cardEl.querySelector('[data-roadmap-close]');
-        closeBtn?.addEventListener('click', () => this.close(), { once: true });
     }
 }
 
@@ -314,7 +314,7 @@ function buildRoadmapNodesFromEvents(events) {
     const sorted = events
         .map((e) => ({ ...e }))
         .filter((e) => e && e.date)
-        .sort((a, b) => (a.date > b.date ? 1 : a.date < b.date ? -1 : 0));
+        .sort((a, b) => (a.date < b.date ? 1 : a.date > b.date ? -1 : 0));
 
     const groups = new Map();
     for (const ev of sorted) {
@@ -327,7 +327,7 @@ function buildRoadmapNodesFromEvents(events) {
         groups.get(monthKey).push({ ev, parts });
     }
 
-    const monthKeys = Array.from(groups.keys()).sort();
+    const monthKeys = Array.from(groups.keys()).sort((a, b) => (a < b ? 1 : a > b ? -1 : 0));
 
     const flagNodes = monthKeys.map((monthKey) => {
         const firstEventInMonth = sorted.find((e) => e.date?.startsWith(monthKey));
@@ -355,6 +355,8 @@ function buildRoadmapNodesFromEvents(events) {
                 dayLabel: String(parts.day),
                 date: ev.date,
                 label: formatDateLong(ev.date),
+                iconName: ev.iconName,
+                iconImage: ev.iconImage,
                 globalTitle: ev.globalTitle,
                 globalExcerpt: ev.globalExcerpt,
                 globalLink: ev.globalLink,
@@ -373,23 +375,23 @@ function buildRoadmapNodesFromEvents(events) {
     const startT = 0.06;
     const endT = 0.97;
 
-    const minDate = flagNodes[0]?.dateAnchor ?? bubbleNodes[0].dateAnchor;
-    const maxDate = bubbleNodes.reduce(
-        (acc, n) => (n.dateAnchor && (!acc || n.dateAnchor > acc) ? n.dateAnchor : acc),
+    const maxDate = flagNodes[0]?.dateAnchor ?? bubbleNodes[0].dateAnchor;
+    const minDate = bubbleNodes.reduce(
+        (acc, n) => (n.dateAnchor && (!acc || n.dateAnchor < acc) ? n.dateAnchor : acc),
         bubbleNodes[0].dateAnchor
     );
     const rangeDays = Math.max(1, diffDays(maxDate, minDate));
 
     const temporalNodes = [...flagNodes, ...bubbleNodes]
         .filter((n) => n.dateAnchor)
-        .sort((a, b) => (a.dateAnchor > b.dateAnchor ? 1 : a.dateAnchor < b.dateAnchor ? -1 : 0) || (a.kind === 'flag' ? -1 : 1));
+        .sort((a, b) => (a.dateAnchor < b.dateAnchor ? 1 : a.dateAnchor > b.dateAnchor ? -1 : 0) || (a.kind === 'flag' ? -1 : 1));
 
     // Compute raw t by ratio, then enforce a small minimum separation so nodes don't overlap.
     const minSep = 0.012;
     let lastT = -Infinity;
     for (const n of temporalNodes) {
-        const daysFromStart = diffDays(n.dateAnchor, minDate);
-        const ratio = clamp(daysFromStart / rangeDays, 0, 1);
+        const daysFromLatest = diffDays(maxDate, n.dateAnchor);
+        const ratio = clamp(daysFromLatest / rangeDays, 0, 1);
         let t = startT + (endT - startT) * ratio;
 
         if (t <= lastT + minSep) {
@@ -462,7 +464,11 @@ class MilestoneNode {
                 this.el.title = node.globalTitle;
             }
             const bubbleTitle = node.globalTitle ? ` title="${String(node.globalTitle).replace(/\"/g, '&quot;')}"` : '';
-            this.el.innerHTML = `<span class="roadmap-bubble" aria-hidden="true"${bubbleTitle}>${node.dayLabel ?? ''}</span>`;
+            const safeAlt = String(node.iconName || node.globalTitle || node.label || 'Timeline icon').replace(/\"/g, '&quot;');
+            const bubbleContent = node.iconImage
+                ? `<img src="${node.iconImage}" alt="${safeAlt}" class="roadmap-bubble-icon" loading="lazy" decoding="async" />`
+                : `${node.dayLabel ?? ''}`;
+            this.el.innerHTML = `<span class="roadmap-bubble" aria-hidden="true"${bubbleTitle}>${bubbleContent}</span>`;
         } else {
             const style = palette[index % palette.length];
             const flagSvg = buildFlagSvg({ colorClass: style.color, pending: node.isPending === true });
