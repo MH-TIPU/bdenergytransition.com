@@ -87,7 +87,7 @@ function buildDesktopSnakePoints({ totalMilestones, nodesPerRow }) {
     const xR = vbW - pad;
     const dx = xR - xL;
 
-    const rowGap = 400;
+    const rowGap = 268;
     const yStart = 150;
     const baseAmp =20;
     const secondRowAmpBoost = 0.9;
@@ -471,13 +471,10 @@ class MilestoneNode {
             this.el.innerHTML = `<span class="roadmap-bubble" aria-hidden="true"${bubbleTitle}>${bubbleContent}</span>`;
         } else {
             const style = palette[index % palette.length];
-            const flagSvg = buildFlagSvg({ colorClass: style.color, pending: node.isPending === true });
             this.el.innerHTML = `
-                <span class="roadmap-label">
+                <span class="roadmap-label" style="display: none">
                     <span class="inline-flex items-center justify-center text-xs font-extrabold text-gray-600 bg-white/90 px-2 py-1 rounded-md border border-gray-200 shadow-sm">${node.label ?? ''}</span>
                 </span>
-                <span class="roadmap-flag"><span class="block drop-shadow-sm">${flagSvg}</span></span>
-                <span class="roadmap-stem"></span>
             `.trim();
         }
 

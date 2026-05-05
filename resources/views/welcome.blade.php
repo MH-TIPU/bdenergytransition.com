@@ -46,13 +46,6 @@
             will-change: transform, opacity;
         }
 
-        .roadmap-flag {
-            position: absolute;
-            left: 50%;
-            top: calc(-1 * var(--lift, 54px));
-            transform: translate(-50%, -50%);
-        }
-
         .roadmap-stem {
             position: absolute;
             left: 50%;
@@ -309,9 +302,9 @@
     </section>
 
     <!-- TIMELINE SECTION -->
-    <section id="timeline" class="py-24 bg-linear-to-b from-[#f8fafc] to-[#f1f5f9] overflow-hidden relative">
+    <section id="timeline" class="py-12 bg-linear-to-b from-[#f8fafc] to-[#f1f5f9] overflow-hidden relative">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-16">
+            <div class="text-center mb-2">
                 <h2 class="text-3xl font-bold text-purple-800 tracking-widest uppercase mb-2">Global Events</h2>
             </div>
         </div>
@@ -328,8 +321,8 @@
                                 </linearGradient>
                             </defs>
 
-                            <path id="roadmapPathBase" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="#e2e8f0" stroke-width="20" stroke-linecap="round" />
-                            <path id="roadmapPathProgress" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="url(#roadmapGrad)" stroke-width="20" stroke-linecap="round" />
+                            <path id="roadmapPathBase" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="#e2e8f0" stroke-width="14" stroke-linecap="round" />
+                            <path id="roadmapPathProgress" d="M40,280 C180,110 320,390 460,220 C600,60 740,360 880,160" fill="none" stroke="url(#roadmapGrad)" stroke-width="14" stroke-linecap="round" />
                         </svg>
 
                         <div class="absolute inset-0" data-roadmap-nodes></div>
