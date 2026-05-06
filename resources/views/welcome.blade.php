@@ -4,7 +4,12 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>BD Energy Transition</title>
+    @php
+        $siteSettings = \App\Models\Setting::first();
+        $siteName = $siteSettings?->site_name ?? config('app.name');
+        $footerText = $siteSettings?->footer_text ?? $siteName;
+    @endphp
+    <title>{{ $siteName }}</title>
     <!-- Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
@@ -198,7 +203,7 @@
             <div class="pt-6">
                 <div class="text-center mb-6">
                     <h1 class="text-xl md:text-2xl font-bold text-purple-800 tracking-tight uppercase">
-                        GLOBAL ENERGY SHOCKS AND BANGLADESH'S LNG RELIANCE
+                        {{ $siteName }}
                     </h1>
                 </div>
                 <nav class="tab-menu">
@@ -416,32 +421,23 @@
     </section>
 
     <!-- FEATURED SLIDER SECTION (after Expert Opinions) -->
-    <section class=" bg-white">
-        <div class="w-full">
-            <div class="swiper swiper-featured w-full bg-white relative group overflow-hidden">
-                <div class="swiper-wrapper">
-                        <div class="swiper-slide w-full bg-white">
-                            <div class="grid grid-cols-1 md:grid-cols-2 w-full min-h-[60vh] md:min-h-[70vh]">
-                                
-                                <div class="h-full w-full order-1 md:order-1">
-                                    <img src="{{ asset('bdmap.jpeg') }}"
-                                        alt="Featured placeholder" class="w-full h-full object-cover">
-                                </div>
-                                
-                                <div class="flex flex-col justify-center px-8 md:px-20 py-16 h-full w-full order-2 md:order-2">
-                                
-                                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight" style="font-family: Georgia, serif;">
-                                        Imported & costly LNG means greater energy insecurity and a greater financial burden for Bangladesh.
-                                    </h2>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-lg">A global energy shock once again hits Bangladesh; it's time to move away from costly, volatile LNG dependence. Instead, the country should free up financial resources and begin emphasizing sustainable, renewable energy from both policy and implementation perspectives. It’s something Bangladesh needs to start right now. Hence, renewable energy shouldn't be a missed golden opportunity for Bangladesh. With a massive 50,000 MW of potential, solar could help shield Bangladesh from ongoing global energy shocks.</p>
-                                </div>
-                                
-                            </div>
-                        </div>
+    <section class="bg-white py-16 md:py-20">
+        <div class="container mx-auto">
+            <div class="grid grid-cols-1 md:grid-cols-2 w-full min-h-[60vh] md:min-h-[70vh] overflow-hidden">
+                <div class="h-full w-full order-1 md:order-1">
+                    <img src="{{ asset('bdmap.jpeg') }}"
+                        alt="Featured map of Bangladesh" class="w-full h-full object-cover">
                 </div>
 
-                {{-- <div class="swiper-button-prev text-gray-300! hover:text-purple-800! transition left-4! md:left-8! drop-shadow-md"></div>
-                <div class="swiper-button-next text-gray-300! hover:text-purple-800! transition right-4! md:right-8! drop-shadow-md"></div> --}}
+                <div class="flex flex-col justify-center px-8 md:px-20 py-16 h-full w-full order-2 md:order-2">
+                    
+                    <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight" style="font-family: Georgia, serif;">
+                        Imported & costly LNG means greater energy insecurity and a greater financial burden for Bangladesh.
+                    </h2>
+                    <p class="text-gray-600 text-lg leading-relaxed max-w-lg">
+                        A global energy shock once again hits Bangladesh; it's time to move away from costly, volatile LNG dependence. Instead, the country should free up financial resources and begin emphasizing sustainable, renewable energy from both policy and implementation perspectives. It’s something Bangladesh needs to start right now. Hence, renewable energy shouldn't be a missed golden opportunity for Bangladesh. With a massive 50,000 MW of potential, solar could help shield Bangladesh from ongoing global energy shocks.
+                    </p>
+                </div>
             </div>
         </div>
     </section>
@@ -449,10 +445,9 @@
     <!-- Footer -->
     <footer class="bg-gray-900 text-white py-12">
         <div class="container mx-auto px-4 text-center">
-            <h2 class="text-2xl font-bold mb-4">BD Energy Transition</h2>
-            <p class="text-gray-400 mb-8 max-w-2xl mx-auto">Tracking the shift towards sustainable and renewable energy
-                sources in Bangladesh amid global energy shocks.</p>
-            <p class="text-sm text-gray-500">&copy; {{ date('Y') }} BD Energy Transition. All rights reserved.</p>
+            <h2 class="text-2xl font-bold mb-4">{{ $siteName }}</h2>
+            <p class="text-gray-400 mb-8 max-w-2xl mx-auto">{{ $footerText }}</p>
+            <p class="text-sm text-gray-500">&copy; {{ date('Y') }} {{ $siteName }}. All rights reserved.</p>
         </div>
     </footer>
 
@@ -489,20 +484,6 @@
             navigation: {
                 nextEl: ".swiper-quotes .swiper-button-next",
                 prevEl: ".swiper-quotes .swiper-button-prev",
-            },
-        });
-
-        // Initialize Featured Slider
-        var swiperFeatured = new Swiper(".swiper-featured", {
-            spaceBetween: 0,
-            centeredSlides: true,
-            autoplay: {
-                delay: 5500,
-                disableOnInteraction: false,
-            },
-            navigation: {
-                nextEl: ".swiper-featured .swiper-button-next",
-                prevEl: ".swiper-featured .swiper-button-prev",
             },
         });
 
