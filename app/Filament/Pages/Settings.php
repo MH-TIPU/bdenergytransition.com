@@ -75,7 +75,10 @@ class Settings extends Page implements HasForms
 
     public function save(): void
     {
-        $setting = SettingModel::first();
+        $setting = SettingModel::firstOrCreate([], [
+            'site_name' => 'BD Energy Transition',
+            'theme_color' => '#5b21b6',
+        ]);
         $setting->update($this->form->getState());
 
         Notification::make()
