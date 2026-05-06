@@ -87,8 +87,8 @@ function buildDesktopSnakePoints({ totalMilestones, nodesPerRow }) {
     const xR = vbW - pad;
     const dx = xR - xL;
 
-    const rowGap = 268;
-    const yStart = 150;
+    const rowGap = 200;
+    const yStart = 50;
     const baseAmp =20;
     const secondRowAmpBoost = 0.9;
     const rowCount = Math.max(1, Math.ceil(totalMilestones / nodesPerRow));

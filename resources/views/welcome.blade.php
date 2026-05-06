@@ -302,10 +302,10 @@
     </section>
 
     <!-- TIMELINE SECTION -->
-    <section id="timeline" class="py-12 bg-linear-to-b from-[#f8fafc] to-[#f1f5f9] overflow-hidden relative">
+    <section id="timeline" class="py-10 bg-linear-to-b from-[#f8fafc] to-[#f1f5f9] overflow-hidden relative">
         <div class="container mx-auto px-4">
-            <div class="text-center mb-2">
-                <h2 class="text-3xl font-bold text-purple-800 tracking-widest uppercase mb-2">Global Events</h2>
+            <div class="text-center mb-1">
+                <h2 class="text-3xl font-bold text-purple-800 tracking-widest uppercase mb-">Global Events</h2>
             </div>
         </div>
 
@@ -420,68 +420,24 @@
         <div class="w-full">
             <div class="swiper swiper-featured w-full bg-white relative group overflow-hidden">
                 <div class="swiper-wrapper">
-                    @forelse(($featuredNews ?? collect()) as $news)
-                        <div class="swiper-slide w-full bg-white">
-                            <div class="grid grid-cols-1 md:grid-cols-2 w-full ">
-                                <!-- Left Image -->
-                                <div class="w-full order-1 md:order-1 flex items-center justify-center bg-white">
-                                    <img src="{{ $news->feature_image ? asset('storage/' . $news->feature_image) : 'https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80' }}"
-                                        alt="{{ $news->title }}"
-                                        class="w-full h-full max-h-[70vh] object-contain">
-                                </div>
-
-                                <!-- Right Content -->
-                                <div class="flex flex-col justify-center w-full order-2 md:order-2">
-                                    <div class="w-full ml-auto px-6 md:px-8 lg:px-12 py-12 md:py-16" style="max-width: 768px;">
-                                        @php
-                                            $categoryNames = $news->categories->pluck('name')->filter()->values();
-                                        @endphp
-                                        <span class="text-purple-800 text-xs md:text-sm font-bold uppercase tracking-widest mb-4 block">
-                                            {{ $categoryNames->isNotEmpty() ? $categoryNames->join(' • ') : 'Energy Blog' }}
-                                        </span>
-                                        <h2 class="text-3xl md:text-4xl lg:text-[2.25rem] xl:text-[2.75rem] font-extrabold text-gray-900 mb-6 leading-tight tracking-tight" style="font-family: Georgia, serif;">
-                                            @if($news->src_link)
-                                                <a href="{{ $news->src_link }}" target="_blank" class="hover:text-purple-800 transition-colors">{{ $news->title }}</a>
-                                            @else
-                                                {{ $news->title }}
-                                            @endif
-                                        </h2>
-                                        <p class="text-gray-600 text-sm md:text-base lg:text-lg leading-relaxed mb-8 max-w-xl line-clamp-3">
-                                            {{ $news->excerpt ?? strip_tags($news->description) }}
-                                        </p>
-                                        @if($news->src_link)
-                                            <a href="{{ $news->src_link }}" target="_blank"
-                                                class="text-purple-800 font-bold uppercase tracking-wider text-xs md:text-sm hover:underline flex items-center w-max">
-                                                Read Full Story
-                                                <svg class="w-4 h-4 ml-2" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path>
-                                                </svg>
-                                            </a>
-                                        @endif
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    @empty
                         <div class="swiper-slide w-full bg-white">
                             <div class="grid grid-cols-1 md:grid-cols-2 w-full min-h-[60vh] md:min-h-[70vh]">
                                 
                                 <div class="h-full w-full order-1 md:order-1">
-                                    <img src="https://images.unsplash.com/photo-1509391366360-2e959784a276?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80"
+                                    <img src="{{ asset('bdmap.jpeg') }}"
                                         alt="Featured placeholder" class="w-full h-full object-cover">
                                 </div>
                                 
                                 <div class="flex flex-col justify-center px-8 md:px-20 py-16 h-full w-full order-2 md:order-2">
-                                    <span class="text-purple-800 text-sm font-bold uppercase tracking-widest mb-4 block">Featured</span>
+                                
                                     <h2 class="text-3xl md:text-5xl font-bold text-gray-900 mb-6 leading-tight" style="font-family: Georgia, serif;">
-                                        No featured news yet
+                                        Imported & costly LNG means greater energy insecurity and a greater financial burden for Bangladesh.
                                     </h2>
-                                    <p class="text-gray-600 text-lg leading-relaxed max-w-lg">Enable “Show in Featured” on a News Item from the admin dashboard to display it here.</p>
+                                    <p class="text-gray-600 text-lg leading-relaxed max-w-lg">A global energy shock once again hits Bangladesh; it's time to move away from costly, volatile LNG dependence. Instead, the country should free up financial resources and begin emphasizing sustainable, renewable energy from both policy and implementation perspectives. It’s something Bangladesh needs to start right now. Hence, renewable energy shouldn't be a missed golden opportunity for Bangladesh. With a massive 50,000 MW of potential, solar could help shield Bangladesh from ongoing global energy shocks.</p>
                                 </div>
                                 
                             </div>
                         </div>
-                    @endforelse
                 </div>
 
                 {{-- <div class="swiper-button-prev text-gray-300! hover:text-purple-800! transition left-4! md:left-8! drop-shadow-md"></div>
